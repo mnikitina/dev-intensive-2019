@@ -14,7 +14,7 @@ object Utils {
     }
 
     fun transliteration(payload: String, divider: String = " "): String {
-        return payload.replace(Regex("[абвгдежзиклмнопрстуфхцш]")) {
+        return payload.replace(Regex("[абвгдежзийклмнопрстуфхцчшщъыьэюя]")) {
             when (it.value) {
                 "а" -> "a"
                 "б" -> "b"
