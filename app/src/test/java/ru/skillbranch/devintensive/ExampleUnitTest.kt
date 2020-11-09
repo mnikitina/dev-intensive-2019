@@ -6,9 +6,7 @@ import ru.skillbranch.devintensive.extensions.TimeUnits
 import ru.skillbranch.devintensive.extensions.add
 import ru.skillbranch.devintensive.extensions.format
 import ru.skillbranch.devintensive.extensions.toUserView
-import ru.skillbranch.devintensive.models.BaseMessage
-import ru.skillbranch.devintensive.models.Chat
-import ru.skillbranch.devintensive.models.User
+import ru.skillbranch.devintensive.models.*
 import java.util.*
 
 /**
@@ -110,12 +108,10 @@ class ExampleUnitTest {
 
         println(txtMessage.formatMessage())
         println(imageMessage.formatMessage())
-/*
         when(imageMessage){
-            //is BaseMessage-> println("this is base message")
-            is TextMessage-> println("this is text message")
+            is BaseMessage-> println("this is base message")
+            is TextMessage -> println("this is text message")
             is ImageMessage -> println("this is image message")
         }
-*/
     }
 }
