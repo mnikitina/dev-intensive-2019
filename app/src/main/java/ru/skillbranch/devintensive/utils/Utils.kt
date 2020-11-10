@@ -2,15 +2,18 @@ package ru.skillbranch.devintensive.utils
 
 
 object Utils {
-    fun parseFullName(fullName: String?): Pair<String?, String> {
-        val parts: List<String>? = fullName?.split(" ")
-        val firstName = parts?.getOrNull(0)
-        val lastName = parts?.getOrNull(1)
-        return if ((lastName == null) || lastName.isEmpty()) {
-            Pair("Default", "Name")
-        } else {
-            firstName to lastName
-        }
+    fun parseFullName(fullName:String?, divider : String = " ") : Pair<String?, String?> {
+        val parts : List<String>? = fullName?.split(divider)
+
+        var firstName = parts?.getOrNull(0)
+        if (firstName == "")
+            firstName = null
+
+        var lastName = parts?.getOrNull(1)
+        if (lastName == "")
+            lastName = null
+
+        return firstName to lastName
     }
 
     fun transliteration(payload: String, divider: String = " "): String {

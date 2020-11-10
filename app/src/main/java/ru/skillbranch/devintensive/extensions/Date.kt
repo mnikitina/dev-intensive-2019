@@ -30,8 +30,9 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
     return this
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+//@RequiresApi(Build.VERSION_CODES.O)
 fun Date.humanizeDiff(date: Date = Date()): String {
+/*
     val mStart: LocalDateTime = convertTolocalDateTime(this)
     val mEnd: LocalDateTime = convertTolocalDateTime(Date())
 
@@ -51,6 +52,8 @@ fun Date.humanizeDiff(date: Date = Date()): String {
     else if (seconds in 45..75) return "минуту назад"
     else if (seconds in 1..45) return "несколько секунд назад"
     else if (seconds in 0..1) return "только что" else ""
+*/
+    return ""
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
