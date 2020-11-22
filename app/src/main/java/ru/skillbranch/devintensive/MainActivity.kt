@@ -37,13 +37,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val question = savedInstanceState?.getString("QUESTION") ?: Bender.Question.NAME.name
         benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question))
 
-        val(r,g,b) = benderObj.status.color
+        val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
 
-        Log.d("M_MainActivity", "onCreate  $status $question")
+        Log.d("M_MainActivity", "onCreate $status $question")
     }
 
     override fun onRestart() {
@@ -86,13 +86,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.iv_send) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
-            messageEt.setText("")
             val answer = messageEt.text.toString()
+            messageEt.setText("")
             if (benderObj.validation(answer)) {
                 val (phrase, color) = benderObj.listenAnswer(answer.toLowerCase())
                 messageEt.setText("")
-                val(r,g,b) = color
+                val (r, g, b) = color
                 benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
                 textTxt.text = phrase
             } else {
