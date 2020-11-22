@@ -13,14 +13,24 @@ class Bender(
         Question.IDLE -> Question.IDLE.question
     }
 
+    fun getValidHint() : String = question.validHint
+
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
-        return if (question.answers.contains(answer)) {
-            question = question.nextQuestion()
-            "Отлично - это правильный ответ!\n${question.question}" to status.color
-        }
-        else {
-            status = status.nextStatus()
-            "Это неправильный ответ!\n${question.question}" to status.color
+        return when {
+            question.answers.contains(answer) -> {
+                question = question.nextQuestion()
+                "Это правильный ответ\n${question.question}" to status.color
+            }
+            question == Question.IDLE -> question.question to status.color
+            status == Status.CRITICAL -> {
+                status = Status.NORMAL
+                question = Question.NAME
+                "Это неправильный ответ. Сначала\n${question.question}" to status.color
+            }
+            else -> {
+                status = status.nextStatus()
+                "Это неправильный ответ\n${question.question}" to status.color
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,17 +28,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         textTxt = tv_text
         sendBtn = iv_send
         messageEt = et_message
+        messageEt.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) sendBtn.performClick()
+            false
+        }
 
         val status = savedInstanceState?.getString("STATUS") ?: Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString("QUESTION") ?: Bender.Question.NAME.name
         benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question))
 
-        Log.d("M_MainActivity", "onCreate")
         val(r,g,b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
+
+        Log.d("M_MainActivity", "onCreate  $status $question")
     }
 
     override fun onRestart() {
@@ -82,9 +88,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (v?.id == R.id.iv_send) {
             val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
             messageEt.setText("")
-            val(r,g,b) = color
-            benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-            textTxt.text = phrase
+            val answer = messageEt.text.toString()
+            if (benderObj.validation(answer)) {
+                val (phrase, color) = benderObj.listenAnswer(answer.toLowerCase())
+                messageEt.setText("")
+                val(r,g,b) = color
+                benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+                textTxt.text = phrase
+            } else {
+                textTxt.text = "${benderObj.getValidHint()}\n${benderObj.question.question}"
+            }
         }
     }
 }
